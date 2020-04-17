@@ -1,17 +1,4 @@
-local UIBase = import("UI/UIBase")
-
-if not Cookie then
-    Cookie = Slua.GetClass('KSFramework.Cookie')
-end
-
-if not I18N then
-    I18N = Slua.GetClass('KSFramework.I18N') -- use slua reflection mode
-end
-
-if not Log then
-    Log = Slua.GetClass('KEngine.Log')
-end
-
+---@type UIMain
 local UIMain = {}
 extends(UIMain, UIBase)
 
@@ -29,21 +16,13 @@ function UIMain:OnInit(controller)
     Log.Info("================================ UIMain:OnInit ============================")
 
     self.TitleText.text = ' ++ form Main.lua'
+    print(string.format("Controller type: %s, Button type full name: %s", type(self.Controller), self.BackBtn:GetType().FullName))
 
-    local btnBack = self.BackBtn
-
-    print(string.format("Controller type: %s, Button type full name: %s", type(self.Controller), btnBack:GetType().FullName))
-
-    if UnityEngine and  UnityEngine.Vector3 then -- static code binded!
-        btnBack.onClick:RemoveAllListeners()
-        btnBack.onClick:AddListener(function()
-            UIModule.Instance:CloseWindow("Main")
-			UIModule.Instance:OpenWindow("Login","name:user1,pwd:123")
-        end)
-        print('Success bind back button onClick event!')
-    else
-        Log.Warning("Not found UnityEngine static code! No AddListener to the button")
-    end
+    Tools.SetButton(self.BackBtn,function()
+        UIModule.Instance:CloseAllWindows()
+        UIModule.Instance:OpenWindow("Login","name:user1,pwd:123")
+    end)
+    print('Success bind back button onClick event!')
 
 end
 
