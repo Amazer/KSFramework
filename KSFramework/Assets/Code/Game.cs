@@ -73,7 +73,7 @@ public class Game : KSGame
             Debug.Log(string.Format("C# Read Setting, Key: {0}, Value: {1}", setting.Id, setting.Value));
         }
 
-        yield return null;
+//        yield return null;
 
         Log.Info("======================================= Open Window 'Login' =================================");
         UIModule.Instance.OpenWindow("Login", 888);
